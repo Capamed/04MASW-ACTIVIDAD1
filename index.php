@@ -1,4 +1,17 @@
-<!DOCTYPE html>
+<?php
+require_once 'libs/controller.php';
+require_once 'libs/view.php';
+require_once 'libs/model.php';
+require_once 'libs/app.php';
+require_once 'libs/ui.php';
+
+$app = new App();
+
+return;
+?>
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="assets/css/style-index.css">
@@ -43,4 +56,4 @@
 
 </body>
 <script src="assets/js/actions-index.js"></script>
-</html>
+</html> -->
