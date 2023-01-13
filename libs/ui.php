@@ -52,3 +52,54 @@ class UIHTML
         echo $HTML;
     }
 }
+
+class UISQL
+{
+    private $conexion;
+    private $servidor;
+    private $puerto;
+    private $controlador;
+    private $bd;
+    private $usuario;
+    private $clave;
+    private $dsn;
+    private $opciones;
+    private function __construct()
+    {
+        $this->servidor = 'peanut.db.elephantsql.com';
+        $this->puerto = 5432;
+        $this->controlador = 'pgsql';
+        $this->bd = 'hpdjntbb';
+        $this->usuario = 'hpdjntbb';
+        $this->clave = 'vWrDDe7KJE0QoZD_l0l6Tlkr9FOmw8Th';
+        // $this->dsn = "$this->controlador:Server=$this->servidor,$this->puerto;Database=$this->bd";
+        $this->dsn = "$this->controlador:host=$this->servidor,$this->puerto;dbname=$this->bd";
+        $this->opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
+    }
+    private function conectar()
+    {
+        $this->conexion = new PDO($this->dsn, $this->usuario, $this->clave, $this->opciones);
+    }
+
+    private function desconectar()
+    {
+        $this->conexion = null;
+    }
+
+    public static function ejecutarSQL($sql)
+    {
+        $conector = new UISQL();
+        try {
+            $conector->conectar();
+            $sentencia = $conector->conexion->prepare($sql);
+            $sentencia->execute();
+            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            $sentencia->closeCursor();
+            return $resultado;
+        } catch (Exception $e) {
+            return "Error ==> {$e->getMessage()}";
+        } finally {
+            $conector->desconectar();
+        }
+    }
+}

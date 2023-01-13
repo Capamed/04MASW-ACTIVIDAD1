@@ -20,6 +20,11 @@ $HTML_RENDER = "";
 <div class="container">
     <div class="row">
         <div class="col-md-8 mx-auto">
+            <div id="divMedico"></div>
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="col-md-8 mx-auto">
             <table class="table table-primary table-bordered table-hover table-erp">
                 <thead>
                     <tr>
@@ -33,7 +38,7 @@ $HTML_RENDER = "";
                 <tbody id="tbodyData"></tbody>
             </table>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <div id="modalMantenimiento" class="modal fade" tabindex="-1" aria-labelledby="modalMantenimiento" aria-hidden="true">
@@ -86,6 +91,51 @@ $HTML_RENDER = "";
         await UILoadingOverlay('show');
         fetch(hdURL.value + 'medico/GetAllMedico').then(r => r.json()).then(r => {
             AData = r;
+
+            var tableFiltro = new UITable.Create({
+                iddiv: 'Medico',
+                // from: 'json',
+                key: "id_medico",
+                source: AData,
+                columnas: [{
+                        data: 'numero_identificacion',
+                        title: '# Identificación',
+                        classb: 'text-center',
+                        size: '150px'
+                    },
+                    {
+                        data: 'nombre',
+                        title: 'Nombre'
+                    },
+                    {
+                        data: 'apellido',
+                        title: 'Apellido',
+                    },
+                    {
+                        data: 'telefono',
+                        title: 'Teléfono',
+                        size: '120px'
+                    },
+                    {
+                        data: null,
+                        title: '',
+                        search: false,
+                        size: '80px',
+                        render: function(jsonRow) {
+                            console.log(jsonRow);
+                            let html = '';
+                            html += `<td style="display: flex;justify-content: space-between;">`;
+                            html += `<button class="btnEditar btn btn-sm btn-warning m-auto"><i class="fa-solid fa-pen"></i></button>`;
+                            html += `<button class="btnEliminar btn btn-sm btn-danger m-auto"><i class="fa-solid fa-trash"></i></button>`;
+                            html += `</td>`;
+                            return html;
+                        }
+                    }
+                ]
+            });
+            UILoadingOverlay('hide');
+            return;
+
             var tbodyData = document.getElementById('tbodyData');
             let html = '';
             for (let i = 0; i < AData.length; i++) {
@@ -139,8 +189,8 @@ $HTML_RENDER = "";
                         });
                     });
                 }
-
             });
+
             UILoadingOverlay('hide');
         });
     }

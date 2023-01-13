@@ -14,3 +14,16 @@ table.table-erp thead tr th {
 table.table-erp tbody tr td {
     background-color: #fff;
 }
+
+.highlight {
+	background: yellow;
+	padding: 0px;
+	border: #00CC00 dotted 1px;
+}
+
+.highlight-dark {
+	background: yellow;
+	padding: 0px;
+	border: #00CC00 dotted 1px;
+	color: #000;
+}
