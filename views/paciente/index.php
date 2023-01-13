@@ -1,7 +1,7 @@
 <?php
 
-$this->title = 'Médico';
-$this->breadcrumb = '/ Médico';
+$this->title = 'Paciente';
+$this->breadcrumb = '/ Paciente';
 
 UIHTML::HEADER($this);
 
@@ -11,7 +11,6 @@ $AButtons = [
     ["javascript:void(0);", "add.png", "REGISTRAR"],
     ["javascript:void(0);", "edit.png", "ACTUALIZAR"],
     ["javascript:void(0);", "file.png", "BUSCAR"],
-    [$this->path . "medico/listar", "file.png", "LISTAR"],
 ];
 
 foreach ($AButtons as $item) {

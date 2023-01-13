@@ -5,3 +5,12 @@
 .fw700 {
     font-weight: 700;
 }
+
+table.table-erp thead tr th {
+    background-color: #369CFB;
+    color: #fff;
+}
+
+table.table-erp tbody tr td {
+    background-color: #fff;
+}
