@@ -55,3 +55,4 @@ function cambiarImagen(opcion) {
       break;
   }
 }
+// structuredClone(No)
