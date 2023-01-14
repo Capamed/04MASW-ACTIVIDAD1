@@ -89,7 +89,9 @@ $HTML_RENDER = "";
 
         var AData = [];
         await UILoadingOverlay('show');
-        fetch(hdURL.value + 'medico/GetAllMedico').then(r => r.json()).then(r => {
+        // UIAjax.Get(hdURL.value + 'medico/GetAllMedico')
+        // fetch(hdURL.value + 'medico/GetAllMedico').then(r => r.json()).then(r => {
+        await UIAjax.Get(hdURL.value + 'medico/GetAllMedico').then(r => {
             AData = r;
             var tableFiltro = new UITable.Create({
                 iddiv: 'Medico',

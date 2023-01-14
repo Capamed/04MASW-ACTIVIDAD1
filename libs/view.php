@@ -14,7 +14,6 @@ class View
         $random = $d2->format('YmdHisu');
 
         $this->random = $random;
-
         $this->path = "http://localhost/VIU/BackEnd/04MASW-ACTIVIDAD1/";
         $this->path_shared = $this->path . "views/shared/";
         $this->path_img = $this->path . "assets/img/";
