@@ -74,6 +74,99 @@ const UIEmpty = function (p) {
     return result;
 }
 
+const URLParameters = {
+    fromJson: function (jsonParam) {
+        var url = Object.keys(jsonParam).map(function (k) {
+            return encodeURIComponent(k) + '=' + encodeURIComponent(jsonParam[k])
+        }).join('&');
+        return url;
+    }
+}
+
+const UIAjax = {
+    Core: async function (metodo, url, params, respuesta) {
+        return new Promise(async function (resolve, reject) {
+            try {
+                function SerializeToUrl(jsonParam) {
+                    var url = Object.keys(jsonParam).map(function (k) {
+                        return encodeURIComponent(k) + '=' + encodeURIComponent(jsonParam[k])
+                    }).join('&');
+                    return url;
+                }
+
+                params = params || {};
+
+                let body = null;
+                if (metodo == 'get') {
+                    url = `${url}?${SerializeToUrl(params)}`;
+                }
+                else {
+                    body = JSON.stringify(params);
+                }
+
+                var headers = new Headers();
+                headers.append('Content-Type', 'application/json');
+
+                fetch(url, {
+                    method: metodo,
+                    headers: headers,
+                    body: body,
+                }).then(async (r) => {
+                    // console.log(r);
+                    if (r.ok && r.status == 200) {
+                        let json = await r.json();
+                        resolve(json);
+                    }
+                });
+            } catch (ex) {
+                console.log(ex.message);
+                reject(ex);
+            }
+        });
+    },
+    Get: async function (url, params) {
+        return UIAjax.Core('get', url, params);
+    },
+    Post: async function (url, params) {
+        return UIAjax.Core('post', url, params);
+    },
+    runPost: async function (url, params, fTrue, fFalse, fAlways) {
+        await UIAjax.Post(url, params).then(async function (r) {
+            if (r.success) {
+                if (fTrue != null) {
+                    await fTrue(r);
+                }
+                if (!params.HideSuccess) {
+                    MsgBox('success');
+                }
+            }
+            else {
+                if (fFalse != null) {
+                    await fFalse(r);
+                }
+                if (!params.HideWarning) {
+                    var sbMensaje = r.mensaje.join('');
+                    MsgBox(sbMensaje, "warning", false);
+                }
+            }
+        }).catch(async function (ex) {
+            if (fFalse != null) {
+                await fFalse();
+            }
+            MsgBox(ex.Message);
+        }).finally(async function () {
+            if (fAlways != null) {
+                await fAlways();
+            }
+        });
+    },
+    runPostLoading: async function (url, params, fTrue, fFalse) {
+        await UILoadingOverlay('show');
+        await UIAjax.runPost(url, params, fTrue, fFalse);
+        UILoadingOverlay('hide');
+    }
+}
+
 const UIEvent = {
     addListener: function (element, name, handler) {
         var events = element.$EVENTS;
@@ -162,12 +255,7 @@ const UITable = {
             multiple: false,
         };
 
-        // $.extend(true, OptionsDefault, Options);
-
         OptionsDefault = { ...OptionsDefault, ...Options };
-
-        console.log(OptionsDefault);
-
 
         var ID_DIV = `div${OptionsDefault.iddiv}`;
         var ID_TABLE = `table${OptionsDefault.iddiv}`;
@@ -308,7 +396,6 @@ const UITable = {
                         tableString += rendered;
                     }
 
-
                     tableString += `</tr>`;
                 }
 
@@ -386,12 +473,13 @@ const UITable = {
                         });
                         for (let o = 0; o < AEventos.length; o++) {
                             let jsonEvento = AEventos[o];
-                            trs[i].addEventListener(jsonEvento.tipo, async function (e) {
-                                var tr = this;
-                                let jsonRow = AFilter.find((x) => x[OptionsDefault.key] == tr.getAttribute('z'));
-                                await jsonEvento.fn.call(tr, e, jsonRow);
-                                //await jsonEvento.fn(e, jsonRow);
-                            });
+                            let ele = trs[i].querySelector(jsonEvento.query);
+                            if (ele) {
+                                let jsonRow = AFilter.find((x) => x[OptionsDefault.key] == trs[i].getAttribute('z'));
+                                ele.addEventListener(jsonEvento.tipo, async function (e) {
+                                    await jsonEvento.fn.call(ele, e, jsonRow);
+                                });
+                            }
                         }
                     }
                 }
@@ -735,7 +823,7 @@ const MsgBox = function (mensaje, tipo, autoclose, dangerMode, funcTrue, funcFal
             break;
         case "question":
             exit = true;
-            MsgBox("Se eliminará el registro seleccionado.", mensaje, false, true, tipo);
+            MsgBox("Se eliminará el registro seleccionado.", mensaje, false, true, tipo, autoclose);
             break;
     }
     var title = "";

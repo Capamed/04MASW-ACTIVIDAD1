@@ -91,10 +91,8 @@ $HTML_RENDER = "";
         await UILoadingOverlay('show');
         fetch(hdURL.value + 'medico/GetAllMedico').then(r => r.json()).then(r => {
             AData = r;
-
             var tableFiltro = new UITable.Create({
                 iddiv: 'Medico',
-                // from: 'json',
                 key: "id_medico",
                 source: AData,
                 columnas: [{
@@ -122,7 +120,6 @@ $HTML_RENDER = "";
                         search: false,
                         size: '80px',
                         render: function(jsonRow) {
-                            console.log(jsonRow);
                             let html = '';
                             html += `<td style="display: flex;justify-content: space-between;">`;
                             html += `<button class="btnEditar btn btn-sm btn-warning m-auto"><i class="fa-solid fa-pen"></i></button>`;
@@ -131,66 +128,46 @@ $HTML_RENDER = "";
                             return html;
                         }
                     }
-                ]
-            });
-            UILoadingOverlay('hide');
-            return;
+                ],
+                eventos: [{
+                    query: 'button.btnEditar',
+                    tipo: 'click',
+                    fn: function(e, jsonRow) {
+                        var myModalEl = document.querySelector('#modalMantenimiento');
+                        var modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
 
-            var tbodyData = document.getElementById('tbodyData');
-            let html = '';
-            for (let i = 0; i < AData.length; i++) {
-                let jsonRow = AData[i];
-                html += `<tr z="${i}">`;
-                html += `<td class="text-center">${jsonRow.id}</td>`;
-                html += `<td>${jsonRow.nombre}</td>`;
-                html += `<td>${jsonRow.apellido}</td>`;
-                html += `<td>${jsonRow.edad}</td>`;
-                html += `<td style="display: flex;justify-content: space-between;">`;
-                html += `<button class="btnEditar btn btn-sm btn-warning m-auto"><i class="fa-solid fa-pen"></i></button>`;
-                html += `<button class="btnEliminar btn btn-sm btn-danger m-auto"><i class="fa-solid fa-trash"></i></button>`;
-                html += `</td>`;
-                html += `</tr>`;
-            }
-
-            tbodyData.innerHTML = html;
-
-            tbodyData.querySelectorAll('tr').forEach(function(tr) {
-                let index = tr.getAttribute('z');
-                let jsonRow = AData[index];
-
-                // var modal = new bootstrap.Modal(document.getElementById('modalMantenimiento'));
-                // var modal = bootstrap.Modal.getInstance(document.getElementById('modalMantenimiento'));
-
-                var myModalEl = document.querySelector('#modalMantenimiento')
-                var modal = bootstrap.Modal.getOrCreateInstance(myModalEl)
-
-                let btnEditar = tr.querySelector('td button.btnEditar');
-                let btnEliminar = tr.querySelector('td button.btnEliminar');
-
-                if (btnEditar) {
-                    btnEditar.addEventListener('click', function(e) {
                         txtNombreMMA.value = jsonRow.nombre;
                         txtApellidoMMA.value = jsonRow.apellido;
-                        txtEdadMMA.value = jsonRow.edad;
+                        // txtEdadMMA.value = jsonRow.edad;
                         // var btnGuardarMMA = document.getElementById('btnGuardarMMA');
                         UIEvent.clearEvents(btnGuardarMMA);
-                        UIEvent.addListener(btnGuardarMMA, 'click', function(e) {
-                            console.log('123');
+                        UIEvent.addListener(btnGuardarMMA, 'click', async function(e) {
+                            let jsonParam = {
+                                id_medico: jsonRow.id_medico,
+                                nombre: txtNombreMMA.value,
+                                apellido: txtApellidoMMA.value,
+                            };
+                            await UIAjax.runPostLoading(hdURL.value + 'medico/PostMedico', jsonParam);
+                            // jsonParam.edad = txtEdadMMA.value;
+                            // console.log('123', jsonParam);
                         });
 
                         modal.show();
-                    });
-                }
-                if (btnEliminar) {
-                    btnEliminar.addEventListener('click', function(e) {
-                        // modal.show();
+                    }
+                }, {
+                    query: 'button.btnEliminar',
+                    tipo: 'click',
+                    fn: function(e, jsonRow) {
+                        let tr = e.target.closest('tr');
+                        tr.classList.add('blocked');
                         MsgBox('question', function() {
-                            console.log('eleiminar');
-                        });
-                    });
-                }
-            });
 
+                        }, function() {
+                            tr.classList.remove('blocked');
+                        });
+                    }
+                }]
+            });
             UILoadingOverlay('hide');
         });
     }

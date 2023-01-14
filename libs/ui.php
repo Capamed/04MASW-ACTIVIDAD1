@@ -1,4 +1,8 @@
+
 <?php
+
+require_once 'models/TransactionEN.php';
+
 class UI
 {
 }
@@ -86,7 +90,7 @@ class UISQL
         $this->conexion = null;
     }
 
-    public static function ejecutarSQL($sql)
+    public static function Table($sql)
     {
         $conector = new UISQL();
         try {
@@ -101,5 +105,52 @@ class UISQL
         } finally {
             $conector->desconectar();
         }
+    }
+    public static function TableToJSON($sql)
+    {
+        return json_encode(UISQL::Table($sql));
+    }
+
+    public static function Execute($sql, $params = array())
+    {
+        $resultado = new TransactionEN();
+        $conector = new UISQL();
+        try {
+            $conector->conectar();
+            $stmt = $conector->conexion->prepare($sql);
+            if (!empty($params) && count($params)) {
+                $stmt->execute($params);
+            } else {
+                $stmt->execute();
+            }
+            // return $stmt->rowCount();
+            $resultado->success = true;
+            array_push($resultado->mensaje, 'Ok');
+        } catch (Exception $e) {
+            array_push($resultado->mensaje, $e->getMessage());
+        } finally {
+            $conector->desconectar();
+        }
+        return $resultado;
+    }
+}
+
+class UIHTTP
+{
+    static function Validate(TransactionEN $result, array $params)
+    {
+        $prms = [];
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!empty($data)) {
+            foreach ($params as $value) {
+                if (empty($data[$value])) {
+                    array_push($result->mensaje, "Falta el parametro '{$value}'.");
+                } else {
+                    $prms[$value] = $data[$value];
+                }
+            }
+        } else
+            array_push($result->mensaje, 'No se recibieron parámetros');
+        return array($data, $prms);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+require_once 'models/TransactionEN.php';
+
 class Medico extends Controller
 {
     function __construct()
@@ -18,8 +21,37 @@ class Medico extends Controller
     function GetAllMedico()
     {
         header('Content-type: application/json');
-        $resultado = UISQL::ejecutarSQL('select * from medico m ;');
-        echo json_encode($resultado);
-        exit();
+        echo UISQL::TableToJSON('select * from medico m order by id_medico limit 10;');
+    }
+
+    function PostMedico()
+    {
+        header('Content-type: application/json');
+        $result = new TransactionEN();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            list($data, $prms) = UIHTTP::Validate($result, ['id_medico', 'nombre', 'apellido']);
+            if (count($result->mensaje) == 0) {
+                $sql = "UPDATE medico SET nombre=:nombre, apellido=:apellido WHERE id_medico=:id_medico;";
+                $result = UISQL::Execute($sql, $prms);
+            }
+        }
+        echo json_encode($result);
     }
 }
+
+
+// header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
+// header("HTTP/1.0 404 Not Found");
+// http_response_code($response_code);
+// http_response_code(200);
+
+// echo $data['nombre'] ?? 'asd';
+// $data = [
+//     'name' => $name,
+//     'surname' => $surname,
+//     'sex' => $sex,
+//     'id' => $id,
+// ];
+// $sql = "UPDATE users SET name=:name, surname=:surname, sex=:sex WHERE id=:id";
+// [$name, $surname, $sex, $id]
+// $sql = "UPDATE users SET name=?, surname=?, sex=? WHERE id=?";
