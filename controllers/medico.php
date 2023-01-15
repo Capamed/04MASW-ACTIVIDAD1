@@ -32,6 +32,11 @@ class Medico extends Controller
             list($data, $prms) = UIHTTP::Validate($result, ['id_medico', 'nombre', 'apellido']);
             if (count($result->mensaje) == 0) {
                 $sql = "UPDATE medico SET nombre=:nombre, apellido=:apellido WHERE id_medico=:id_medico;";
+                // if (empty($data['id_medico'])) {
+                //     $sql = "INSERTasdas da";
+                // }
+                // if ($data['id_medico'] == 'A') {
+                // }
                 $result = UISQL::Execute($sql, $prms);
             }
         }
