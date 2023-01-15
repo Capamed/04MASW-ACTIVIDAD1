@@ -21,7 +21,7 @@ foreach ($AButtons as $item) {
 <div class="container-fluid">
     <div class="row mt-5">
         <div class="col-auto m-auto">
-            <?php echo $HTML_RENDER ?>
+            <?php echo $HTML_RENDER?>
         </div>
     </div>
 </div>
