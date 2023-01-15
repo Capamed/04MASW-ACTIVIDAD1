@@ -15,7 +15,7 @@ class View
 
         $this->random = $random;
 
-        $this->path = "http://localhost/VIU/BackEnd/04MASW-ACTIVIDAD1/";
+        $this->path = "http://localhost/REPOSITORIO_PHP_ACTIVIDADES/04MASW-ACTIVIDAD1/";
         $this->path_shared = $this->path . "views/shared/";
         $this->path_img = $this->path . "assets/img/";
         $this->path_header = $this->path_shared . "header.php";

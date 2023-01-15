@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,7 +11,7 @@
 
 <body>
   <video autoplay muted loop id="myVideo">
-    <source src="../../assets/img/videoBackground.mp4" type="video/mp4">
+    <source src="assets/img/videoBackground.mp4" type="video/mp4">
     Your browser does not support HTML5 video.
   </video>
   <img src="assets/img/developer.png" alt="imagen-representacion" width="159px"
@@ -20,20 +20,16 @@
     style="position: absolute;right: 95px;border-radius: 50%;" id="imgCambiarDos">
   <div class="Menu">
     <ul class="Menu-list">
-      <a href="https://www.w3schools.com" target="_blank">
-        <li class="Menu-list-item" onmouseover="cambiarImagen('A')" onmouseout="cambiarImagen('D')">
-          Actividad
-          <span class="Mask"><span>Actividad</span></span>
-          <span class="Mask"><span>Actividad</span></span>
-        </li>
-      </a>
-      <a href="https://www.w3schools.com" target="_blank">
-        <li class="Menu-list-item" onmouseover="cambiarImagen('N')" onmouseout="cambiarImagen('D')">
-          Nosotros
-          <span class="Mask"><span>Nosotros</span></span>
-          <span class="Mask"><span>Nosotros</span></span>
-        </li>
-      </a>
+      <li class="Menu-list-item" onmouseover="cambiarImagen('A')" onmouseout="cambiarImagen('D')" onclick="window.location='./home'">
+        Actividad
+        <span class="Mask"><span>Actividad</span></span>
+        <span class="Mask"><span>Actividad</span></span>
+      </li>
+      <li class="Menu-list-item" onmouseover="cambiarImagen('N')" onmouseout="cambiarImagen('D')" onclick="window.location='./home'">
+        Nosotros
+        <span class="Mask"><span>Nosotros</span></span>
+        <span class="Mask"><span>Nosotros</span></span>
+      </li>
       <a href="https://github.com/Capamed/04MASW-ACTIVIDAD1" target="_blank">
         <li class="Menu-list-item" onmouseover="cambiarImagen('R')" onmouseout="cambiarImagen('D')">
           Repositorio
@@ -53,4 +49,4 @@
 </body>
 <script src="assets/js/actions-index.js"></script>
 
-</html> -->
+</html>
