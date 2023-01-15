@@ -25,7 +25,7 @@
         <span class="Mask"><span>Actividad</span></span>
         <span class="Mask"><span>Actividad</span></span>
       </li>
-      <li class="Menu-list-item" onmouseover="cambiarImagen('N')" onmouseout="cambiarImagen('D')" onclick="window.location='./home'">
+      <li class="Menu-list-item" onmouseover="cambiarImagen('N')" onmouseout="cambiarImagen('D')" onclick="window.location='./nosotros'">
         Nosotros
         <span class="Mask"><span>Nosotros</span></span>
         <span class="Mask"><span>Nosotros</span></span>
@@ -48,5 +48,4 @@
   </div>
 </body>
 <script src="assets/js/actions-index.js"></script>
-
 </html>
