@@ -9,7 +9,7 @@ $HTML_RENDER = "";
 
 $AButtons = [
     [$this->path . "medico/listar", "doctor.png", "MÉDICOS"],
-    [$this->path . "paciente", "victima.png", "PACIENTES"],
+    [$this->path . "paciente/listar", "victima.png", "PACIENTES"],
 ];
 
 foreach ($AButtons as $item) {
