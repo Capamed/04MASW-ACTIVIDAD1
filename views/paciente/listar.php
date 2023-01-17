@@ -128,7 +128,7 @@ $HTML_RENDER = "";
             var modalEl = document.querySelector('#modalMantenimiento');
             var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
             modal.hide();
-            
+
             await UILoadingOverlay('show');
             await UIAjax.Get(hdURL.value + 'paciente/GetAllPaciente').then(r => {
                 AData = r;
@@ -136,11 +136,12 @@ $HTML_RENDER = "";
                     iddiv: 'DataPrincipal',
                     key: "id_paciente",
                     source: AData,
+                    rowspan: true,
                     columnas: [{
                             data: 'id_paciente',
                             title: '#',
                             classb: 'text-center',
-                            size: '150px'
+                            size: '100px'
                         },
                         {
                             data: 'nombre',
@@ -157,15 +158,13 @@ $HTML_RENDER = "";
                         },
                         {
                             data: null,
-                            rowspan: 2,
                             title: '<button class="btnAgregar btn btn-sm btn-success m-auto" onclick="Load.Modal();"><i class="fa-solid fa-plus"></i></button>',
                             search: false,
-                            size: '80px;text-align:center;',
+                            size: '80px;text-align:center;vertical-align:middle;',
                             render: function(jsonRow) {
                                 let html = '';
                                 html += `<td style="display: flex;justify-content: space-between;">`;
                                 html += `<button class="btnEditar btn btn-sm btn-warning m-auto"><i class="fa-solid fa-pen"></i></button>`;
-                                // html += `<button class="btnEliminar btn btn-sm btn-danger m-auto"><i class="fa-solid fa-trash"></i></button>`;
                                 html += `</td>`;
                                 return html;
                             }
@@ -178,19 +177,6 @@ $HTML_RENDER = "";
                                 Load.Modal(jsonRow);
                             }
                         }
-                        /*, {
-                                            query: 'button.btnEliminar',
-                                            tipo: 'click',
-                                            fn: function(e, jsonRow) {
-                                                let tr = e.target.closest('tr');
-                                                tr.classList.add('blocked');
-                                                MsgBox('question', function() {
-
-                                                }, function() {
-                                                    tr.classList.remove('blocked');
-                                                });
-                                            }
-                                        }*/
                     ]
                 });
                 UILoadingOverlay('hide');

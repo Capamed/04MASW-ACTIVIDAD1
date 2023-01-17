@@ -21,7 +21,7 @@ class Medico extends Controller
     function GetAllMedico()
     {
         header('Content-type: application/json');
-        echo UISQL::TableToJSON('select * from medico m order by id_medico limit 10;');
+        echo UISQL::TableToJSON('select * from get_medico();');
     }
 
     function PostMedico()
@@ -29,14 +29,10 @@ class Medico extends Controller
         header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            list($data, $prms) = UIHTTP::Validate($result, ['id_medico', 'nombre', 'apellido']);
+            $validar = ['id_medico', 'numero_identificacion', 'nombre', 'apellido', 'telefono', 'correo_electronico', 'id_especialidad'];
+            list($data, $prms) = UIHTTP::Validate($result, $validar);
             if (count($result->mensaje) == 0) {
-                $sql = "UPDATE medico SET nombre=:nombre, apellido=:apellido WHERE id_medico=:id_medico;";
-                // if (empty($data['id_medico'])) {
-                //     $sql = "INSERTasdas da";
-                // }
-                // if ($data['id_medico'] == 'A') {
-                // }
+                $sql = "Usp_post_medico";
                 $result = UISQL::Execute($sql, $prms);
             }
         }

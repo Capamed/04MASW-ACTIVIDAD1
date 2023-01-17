@@ -145,7 +145,16 @@ const UIAjax = {
                     await fFalse(r);
                 }
                 if (!params.HideWarning) {
-                    var sbMensaje = r.mensaje.join('');
+                    var sbMensaje = '<ul class="list-group">';
+                    const reg = /\'.*\'/;
+                    for (let i = 0; i < r.mensaje.length; i++) {
+                        const mensaje = new String(r.mensaje[i]);
+                        const newStr = mensaje.replace(reg, function (v) {
+                            return `<b>${v}</b>`;
+                        });
+                        sbMensaje += `<li class="list-group-item">${newStr}</li>`;
+                    }
+                    sbMensaje += '</ul>';
                     MsgBox(sbMensaje, "warning", false);
                 }
             }
@@ -810,6 +819,21 @@ const UITable = {
         return ths;
     },
 };
+
+const UIHTML = {
+    Combobox: function (query, data, value, text) {
+        let html = '';
+        let ele = document.querySelector(query);
+        if (ele) {
+            let jsonRow = null;
+            for (let i = 0; i < data.length; i++) {
+                jsonRow = data[i];
+                html += `<option value="${jsonRow[value]}">${jsonRow[text]}</option>`;
+            }
+            ele.innerHTML = html;
+        }
+    }
+}
 
 const MsgBox = function (mensaje, tipo, autoclose, dangerMode, funcTrue, funcFalse) {
     switch (mensaje) {
