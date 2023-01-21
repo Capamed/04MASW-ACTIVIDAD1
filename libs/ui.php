@@ -70,12 +70,12 @@ class UISQL
     private $opciones;
     private function __construct()
     {
-        $this->servidor = 'peanut.db.elephantsql.com';
+        $this->servidor = 'isilo.db.elephantsql.com';
         $this->puerto = 5432;
         $this->controlador = 'pgsql';
-        $this->bd = 'hpdjntbb';
-        $this->usuario = 'hpdjntbb';
-        $this->clave = 'vWrDDe7KJE0QoZD_l0l6Tlkr9FOmw8Th';
+        $this->bd = 'ditixdvr';
+        $this->usuario = 'ditixdvr';
+        $this->clave = 'qya9L-taxxskDijE45c8_H711i4GulyE';
         // $this->dsn = "$this->controlador:Server=$this->servidor,$this->puerto;Database=$this->bd";
         $this->dsn = "$this->controlador:host=$this->servidor,$this->puerto;dbname=$this->bd";
         $this->opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
@@ -111,18 +111,20 @@ class UISQL
         return json_encode(UISQL::Table($sql));
     }
 
-    public static function Execute($sql, $params = array())
+    public static function Execute($sp, $params = array())
     {
         $resultado = new TransactionEN();
         $conector = new UISQL();
         try {
             $conector->conectar();
-            $stmt = $conector->conexion->prepare($sql);
+            $sp_prepare = UISQL::PrepareSP($sp, $params);
+            $stmt = $conector->conexion->prepare($sp_prepare);
             if (!empty($params) && count($params)) {
-                $stmt->execute($params);
-            } else {
-                $stmt->execute();
+                foreach ($params as $key => &$val) {
+                    $stmt->bindParam(":p_" . $key, $val);
+                }
             }
+            $stmt->execute();
             // return $stmt->rowCount();
             $resultado->success = true;
             array_push($resultado->mensaje, 'Ok');
@@ -130,6 +132,30 @@ class UISQL
             array_push($resultado->mensaje, $e->getMessage());
         } finally {
             $conector->desconectar();
+        }
+        return $resultado;
+    }
+
+    public static function PrepareSP($sp, $params = array())
+    {
+        $resultado = "";
+        try {
+            $resultado .= "CALL {$sp}";
+            if (!empty($params) && count($params)) {
+                // $resultado .= " ( :p_";
+                // $resultado .= join(',:p_',$params);
+                // $resultado .= " ) ";
+                $resultado .= " ( ";
+                foreach ($params as $key => $val) {
+                    $resultado .= ":p_$key,";
+                }
+                // $resultado .= trim($resultado, ',');
+                $resultado = substr($resultado, 0, -1);
+                // trim($resultado, ',');
+                $resultado .= " ) ";
+            }
+            $resultado .= ";";
+        } catch (Exception $e) {
         }
         return $resultado;
     }

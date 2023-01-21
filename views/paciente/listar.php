@@ -1,7 +1,7 @@
 <?php
 
-$this->title = 'Médico';
-$this->breadcrumb = '/ Listado de Médicos';
+$this->title = 'Paciente';
+$this->breadcrumb = '/ Listado de Pacientes';
 
 UIHTML::HEADER($this);
 
@@ -20,7 +20,7 @@ $HTML_RENDER = "";
 <div class="container">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <div id="divMedico"></div>
+            <div id="divDataPrincipal"></div>
         </div>
     </div>
     <!-- <div class="row">
@@ -51,21 +51,6 @@ $HTML_RENDER = "";
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-floating mb-3">
-                                <input id="txtNumeroIdentificacionMMA" type="text" class="form-control" placeholder="_">
-                                <label for="txtNumeroIdentificacionMMA"># Identificacion</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <select id="selectEspecialidadMMA" class="form-control">
-                                </select>
-                                <label for="selectEspecialidadMMA">Especialidad</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
                                 <input id="txtNombreMMA" type="text" class="form-control" placeholder="_">
@@ -82,14 +67,39 @@ $HTML_RENDER = "";
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
+                                <select id="selectSexoMMA" class="form-control">
+                                    <option value="1">Masculino</option>
+                                    <option value="2">Femenino</option>
+                                </select>
+                                <label for="selectSexoMMA">Sexo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating mb-3">
                                 <input id="txtTelefonoMMA" type="text" class="form-control" placeholder="_">
                                 <label for="txtTelefonoMMA">Telefono</label>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-floating mb-3">
+                                <input id="txtDireccionMMA" type="text" class="form-control" placeholder="_">
+                                <label for="txtDireccionMMA">Dirección</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-8">
                             <div class="form-floating mb-3">
                                 <input id="txtCorreoElectronicoMMA" type="email" class="form-control" placeholder="_">
                                 <label for="txtCorreoElectronicoMMA">Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating mb-3">
+                                <input id="txtFechaNacimientoMMA" type="email" class="form-control" placeholder="_">
+                                <label for="txtFechaNacimientoMMA">F.Nacimiento</label>
                             </div>
                         </div>
                     </div>
@@ -106,10 +116,9 @@ $HTML_RENDER = "";
 <?php UIHTML::FOOTER($this); ?>
 
 <script>
-    var AEspecialidad = [];
     var AData = [];
+
     window.onload = async function() {
-        await Load.Especialidad(true);
         Load.Ready();
     }
 
@@ -121,24 +130,18 @@ $HTML_RENDER = "";
             modal.hide();
 
             await UILoadingOverlay('show');
-            await UIAjax.Get(hdURL.value + 'medico/GetAllMedico').then(r => {
+            await UIAjax.Get(hdURL.value + 'paciente/GetAllPaciente').then(r => {
                 AData = r;
                 var tableFiltro = new UITable.Create({
-                    iddiv: 'Medico',
-                    key: "id_medico",
+                    iddiv: 'DataPrincipal',
+                    key: "id_paciente",
                     source: AData,
                     rowspan: true,
                     columnas: [{
-                            data: 'id_medico',
+                            data: 'id_paciente',
                             title: '#',
-                            class: 'text-center',
                             classb: 'text-center',
                             size: '100px'
-                        }, {
-                            data: 'numero_identificacion',
-                            title: '# Identificación',
-                            classb: 'text-center',
-                            size: '150px'
                         },
                         {
                             data: 'nombre',
@@ -168,12 +171,13 @@ $HTML_RENDER = "";
                         }
                     ],
                     eventos: [{
-                        query: 'button.btnEditar',
-                        tipo: 'click',
-                        fn: function(e, jsonRow) {
-                            Load.Modal(jsonRow);
+                            query: 'button.btnEditar',
+                            tipo: 'click',
+                            fn: function(e, jsonRow) {
+                                Load.Modal(jsonRow);
+                            }
                         }
-                    }]
+                    ]
                 });
                 UILoadingOverlay('hide');
             });
@@ -181,44 +185,34 @@ $HTML_RENDER = "";
         Modal: async function(jsonRow) {
             if (jsonRow == null) {
                 jsonRow = {};
-                jsonRow.id_medico = -1;
+                jsonRow.id_paciente = -1;
             }
             var modalEl = document.querySelector('#modalMantenimiento');
             var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            txtNumeroIdentificacionMMA.value = jsonRow.numero_identificacion || '';
             txtNombreMMA.value = jsonRow.nombre || '';
             txtApellidoMMA.value = jsonRow.apellido || '';
+            selectSexoMMA.value = jsonRow.sexo || '1';
             txtTelefonoMMA.value = jsonRow.telefono || '';
+            txtDireccionMMA.value = jsonRow.direccion || '';
             txtCorreoElectronicoMMA.value = jsonRow.correo_electronico || '';
-            selectEspecialidadMMA.value = jsonRow.id_especialidad || '1';
+            txtFechaNacimientoMMA.value = jsonRow.fecha_nacimiento || '';
             UIEvent.clearEvents(btnGuardarMMA);
             UIEvent.addListener(btnGuardarMMA, 'click', async function(e) {
                 let jsonParam = {
-                    id_medico: jsonRow.id_medico,
-                    numero_identificacion: txtNumeroIdentificacionMMA.value,
+                    id_paciente: jsonRow.id_paciente,
                     nombre: txtNombreMMA.value,
                     apellido: txtApellidoMMA.value,
+                    sexo: selectSexoMMA.value,
                     telefono: txtTelefonoMMA.value,
+                    direccion: txtDireccionMMA.value,
                     correo_electronico: txtCorreoElectronicoMMA.value,
-                    id_especialidad: selectEspecialidadMMA.value,
+                    fecha_nacimiento: txtFechaNacimientoMMA.value,
                 };
-                await UIAjax.runPostLoading(hdURL.value + 'medico/PostMedico', jsonParam, Load.Ready);
+                await UIAjax.runPostLoading(hdURL.value + 'paciente/PostPaciente', jsonParam, Load.Ready);
             });
 
             modal.show();
-        },
-        Especialidad: async function(showLoading) {
-            showLoading = showLoading || false;
-            if (showLoading) {
-                await UILoadingOverlay('show');
-            }
-            await UIAjax.Get(hdURL.value + 'especialidad/GetAllEspecialidad').then(r => {
-                AEspecialidad = r;
-                UIHTML.Combobox('#selectEspecialidadMMA', AEspecialidad, 'id_especialidad', 'nombre');
-            });
-            if (showLoading) {
-                UILoadingOverlay('hide');
-            }
+
         }
     }
 </script>

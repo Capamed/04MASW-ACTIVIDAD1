@@ -8,8 +8,10 @@ UIHTML::HEADER($this);
 $HTML_RENDER = "";
 
 $AButtons = [
+    [$this->path . "especialidad/listar", "blank.png", "ESPECIALIDAD"],
     [$this->path . "medico/listar", "doctor.png", "MÉDICOS"],
-    [$this->path . "paciente", "victima.png", "PACIENTES"],
+    [$this->path . "paciente/listar", "victima.png", "PACIENTES"],
+    [$this->path . "color/listar", "blank.png", "COLORES"],
 ];
 
 foreach ($AButtons as $item) {
@@ -21,7 +23,7 @@ foreach ($AButtons as $item) {
 <div class="container-fluid">
     <div class="row mt-5">
         <div class="col-auto m-auto">
-            <?php echo $HTML_RENDER?>
+            <?php echo $HTML_RENDER ?>
         </div>
     </div>
 </div>
