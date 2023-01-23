@@ -8,10 +8,13 @@ UIHTML::HEADER($this);
 $HTML_RENDER = "";
 
 $AButtons = [
-    [$this->path . "especialidad/listar", "blank.png", "ESPECIALIDAD"],
+    [$this->path . "especialidad/listar", "especialidad.png", "ESPECIALIDAD"],
     [$this->path . "medico/listar", "doctor.png", "MÉDICOS"],
     [$this->path . "paciente/listar", "victima.png", "PACIENTES"],
-    [$this->path . "color/listar", "blank.png", "COLORES"],
+    // [$this->path . "color/listar", "blank.png", "COLORES"],
+    [$this->path . "enfermero/listar", "enfermera.png", "ENFERMEROS"],
+    [$this->path . "color/listar", "history.png", "HISTORIAL"],
+    [$this->path . "color/listar", "agenda.png", "AGENDAMIENTO"],
 ];
 
 foreach ($AButtons as $item) {
