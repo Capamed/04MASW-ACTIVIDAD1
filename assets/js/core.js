@@ -96,22 +96,22 @@ const UIAjax = {
 
                 params = params || {};
 
-                let body = null;
-                if (metodo == 'get') {
-                    url = `${url}?${SerializeToUrl(params)}`;
-                }
-                else {
-                    body = JSON.stringify(params);
-                }
-
                 var headers = new Headers();
                 headers.append('Content-Type', 'application/json');
 
-                fetch(url, {
+                let options = {
                     method: metodo,
                     headers: headers,
-                    body: body,
-                }).then(async (r) => {
+                };
+                
+                if (metodo == 'get' && !UIEmpty(params)) {
+                    url = `${url}?${SerializeToUrl(params)}`;
+                }
+                if (metodo == 'post' && !UIEmpty(params)) {
+                    options.body = JSON.stringify(params);
+                }
+
+                fetch(url, options).then(async (r) => {
                     // console.log(r);
                     if (r.ok && r.status == 200) {
                         let json = await r.json();

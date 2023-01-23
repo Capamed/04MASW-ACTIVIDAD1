@@ -23,7 +23,7 @@ class Especialidad extends Controller
 
     function PostEspecialidad()
     {
-        header('Content-type: application/json');
+        header('Content-type: application/json');        
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $validar = ['id_especialidad', 'nombre'];
