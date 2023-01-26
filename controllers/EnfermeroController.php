@@ -1,5 +1,5 @@
 <?php
-class Enfermero extends Controller
+class EnfermeroController extends Controller
 {
     function __construct()
     {

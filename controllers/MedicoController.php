@@ -2,7 +2,7 @@
 
 require_once 'models/TransactionEN.php';
 
-class Medico extends Controller
+class MedicoController extends Controller
 {
     function __construct()
     {
