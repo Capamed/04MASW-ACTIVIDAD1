@@ -32,13 +32,17 @@ class App
         $url = explode('/', $url);
 
         // var_dump($url);
-
-        $archivoController = 'controllers/' . $url[0] . '.php';
+        $nombreController = $url[0];
+        
+        $archivoController = 'controllers/' . $nombreController . '.php';
+        if (!file_exists($archivoController)) {
+            $nombreController = $url[0]."Controller";
+            $archivoController = 'controllers/' . $nombreController . '.php';
+        }
         if (file_exists($archivoController)) {
-            // var_dump($archivoController);
-            // var_dump($url);
+            // var_dump($archivoController);             
             require_once $archivoController;
-            $controller = new $url[0];
+            $controller = new $nombreController;
             if (!isset($url[1])) {
                 $url[1] = 'index';
             }

@@ -90,14 +90,18 @@ class UISQL
         $this->conexion = null;
     }
 
-    public static function Table($sql)
+    public static function Table($sql, $model = null)
     {
         $conector = new UISQL();
         try {
             $conector->conectar();
             $sentencia = $conector->conexion->prepare($sql);
             $sentencia->execute();
-            $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            if (empty($model)) {
+                $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                $resultado = $sentencia->fetchAll(PDO::FETCH_CLASS, $model);
+            }
             $sentencia->closeCursor();
             return $resultado;
         } catch (Exception $e) {
@@ -106,9 +110,9 @@ class UISQL
             $conector->desconectar();
         }
     }
-    public static function TableToJSON($sql)
+    public static function TableToJSON($sql, $model = null)
     {
-        return json_encode(UISQL::Table($sql));
+        return json_encode(UISQL::Table($sql, $model));
     }
 
     public static function Execute($sp, $params = array())
@@ -178,5 +182,47 @@ class UIHTTP
         } else
             array_push($result->mensaje, 'No se recibieron parámetros');
         return array($data, $prms);
+    }
+    static function ValidateWithModel(TransactionEN $result, array $params, $model)
+    {
+
+        $prms = [];
+        $mdl = new $model;
+        $refl = new ReflectionClass($mdl);
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!empty($data)) {
+            foreach ($params as $value) {
+                if (empty($data[$value])) {
+                    array_push($result->mensaje, "Falta el parametro '{$value}'.");
+                } else {
+                    $property = $refl->getProperty($value);
+                    $prms[$value] = $data[$value];
+                    $property->setValue($mdl, $data[$value]);
+                }
+            }
+        } else
+            array_push($result->mensaje, 'No se recibieron parámetros');
+        return array($data, $prms, $mdl);
+    }
+}
+
+class UIMODEL
+{
+    static function CopyPartial($model, array $params)
+    {
+        $prms = [];
+        // $refl = new ReflectionClass($model);
+        if (!empty($model) && !empty($params)) {
+            foreach ($params as $value) {
+                if (property_exists($model, $value)) {
+                    // $model->{$value} = $value;
+                    $prms[$value] = $model->{$value};
+                }
+                // if (!empty($model[$value])) {
+                //     $prms[$value] = $model[$value];
+                // }
+            }
+        }
+        return $prms;
     }
 }

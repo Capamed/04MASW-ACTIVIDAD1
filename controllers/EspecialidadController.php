@@ -1,5 +1,6 @@
 <?php
-class Especialidad extends Controller
+include_once 'models/EspecialidadModel.php';
+class EspecialidadController extends Controller
 {
     function __construct()
     {
@@ -18,19 +19,18 @@ class Especialidad extends Controller
     function GetAllEspecialidad()
     {
         header('Content-type: application/json');
-        echo UISQL::TableToJSON('select * from get_especialidad();');
+        echo EspecialidadModel::GetAll();
     }
 
     function PostEspecialidad()
     {
-        header('Content-type: application/json');        
+        header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $validar = ['id_especialidad', 'nombre'];
-            list($data, $prms) = UIHTTP::Validate($result, $validar);
+            // $validar = ['id_especialidad', 'nombre'];
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, EspecialidadModel::PARAMS, EspecialidadModel::class);
             if (count($result->mensaje) == 0) {
-                $sql = "Usp_post_especialidad";
-                $result = UISQL::Execute($sql, $prms);
+                $result = EspecialidadModel::Post($model);
             }
         }
         echo json_encode($result);
