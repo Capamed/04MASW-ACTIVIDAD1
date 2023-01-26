@@ -17,8 +17,9 @@ class Paciente extends Controller
 
     function GetAllPaciente()
     {
+        $estado = isset($_GET['estado']) ? $_GET['estado'] : '';
         header('Content-type: application/json');
-        echo UISQL::TableToJSON('select * from get_paciente();');
+        echo UISQL::TableToJSON("select * from get_paciente('{$estado}');");
     }
 
     function PostPaciente()
@@ -26,7 +27,7 @@ class Paciente extends Controller
         header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $validar = ['id_paciente', 'nombre', 'apellido', 'sexo', 'telefono', 'direccion', 'correo_electronico', 'fecha_nacimiento'];
+            $validar = ['id_paciente', 'nombre', 'apellido', 'sexo', 'telefono', 'direccion', 'correo_electronico', 'fecha_nacimiento', 'estado'];
             list($data, $prms) = UIHTTP::Validate($result, $validar);
             if (count($result->mensaje) == 0) {
                 $sql = "Usp_post_paciente";

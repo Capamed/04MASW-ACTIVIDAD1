@@ -19,6 +19,16 @@ $HTML_RENDER = "";
 
 <div class="container">
     <div class="row">
+        <div class="col-md-4 mx-auto mb-2">
+            <label>Estado</label>
+            <select id="selectEstado" class="form-control" onchange=Load.Ready()>
+                <option value="T">Todos</option>
+                <option value="A" selected>Activo</option>
+                <option value="I">Inactivo</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-8 mx-auto">
             <div id="divDataPrincipal"></div>
         </div>
@@ -50,6 +60,15 @@ $HTML_RENDER = "";
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label>Estado</label>
+                            <select id="selectEstadoMMA" class="form-control">
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
@@ -130,7 +149,7 @@ $HTML_RENDER = "";
             modal.hide();
 
             await UILoadingOverlay('show');
-            await UIAjax.Get(hdURL.value + 'paciente/GetAllPaciente').then(r => {
+            await UIAjax.Get(hdURL.value + 'paciente/GetAllPaciente?estado=' + selectEstado.value).then(r => {
                 AData = r;
                 var tableFiltro = new UITable.Create({
                     iddiv: 'DataPrincipal',
@@ -171,13 +190,12 @@ $HTML_RENDER = "";
                         }
                     ],
                     eventos: [{
-                            query: 'button.btnEditar',
-                            tipo: 'click',
-                            fn: function(e, jsonRow) {
-                                Load.Modal(jsonRow);
-                            }
+                        query: 'button.btnEditar',
+                        tipo: 'click',
+                        fn: function(e, jsonRow) {
+                            Load.Modal(jsonRow);
                         }
-                    ]
+                    }]
                 });
                 UILoadingOverlay('hide');
             });
@@ -196,6 +214,7 @@ $HTML_RENDER = "";
             txtDireccionMMA.value = jsonRow.direccion || '';
             txtCorreoElectronicoMMA.value = jsonRow.correo_electronico || '';
             txtFechaNacimientoMMA.value = jsonRow.fecha_nacimiento || '';
+            selectEstadoMMA.value = jsonRow.estado || '';
             UIEvent.clearEvents(btnGuardarMMA);
             UIEvent.addListener(btnGuardarMMA, 'click', async function(e) {
                 let jsonParam = {
@@ -207,6 +226,7 @@ $HTML_RENDER = "";
                     direccion: txtDireccionMMA.value,
                     correo_electronico: txtCorreoElectronicoMMA.value,
                     fecha_nacimiento: txtFechaNacimientoMMA.value,
+                    estado: selectEstadoMMA.value,
                 };
                 await UIAjax.runPostLoading(hdURL.value + 'paciente/PostPaciente', jsonParam, Load.Ready);
             });
