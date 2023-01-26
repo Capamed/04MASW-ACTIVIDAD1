@@ -1,46 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="assets/css/style-index.css">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-
-<video autoplay muted loop id="myVideo">
-  <source src="assets/resources/backgroundVideo.mp4" type="video/mp4">
-  Your browser does not support HTML5 video.
-</video>
-
-<div class="Menu">
-  <ul class="Menu-list" >
-    <li class="Menu-list-item"  onclick>
-      Actividad
-      <span class="Mask"><span>Actividad</span></span>
-      <span class="Mask"><span>Actividad</span></span>
-    </li>
-	<br>
-    <li class="Menu-list-item"  onclick>
-      Nosotros
-      <span class="Mask"><span>Nosotros</span></span>
-      <span class="Mask"><span>Nosotros</span></span>
-    </li>
-	<br>
-    <li class="Menu-list-item"  onclick>
-      Repositorio
-      <span class="Mask"><span>Repositorio</span></span>
-      <span class="Mask"><span>Repositorio</span></span>
-    </li>
-    <li class="Menu-list-item" onclick>
-      VIU
-      <span class="Mask"><span>VIU</span></span>
-      <span class="Mask"><span>VIU</span></span>
-    </li>
-  </ul>
-</div>
-
-</body>
-<script src="assets/js/actions-index.js"></script>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Especialidad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1 class="text-center p-3">Especialidad</h1>
+    <div class="container-fluid">
+        <a href="/view/especialidad/create.php" class="btn btn-primary">Agregar nueva especialidad</a>
+        <a href="/view/especialidad/read.php?id=0" class="btn btn-primary">Mostrar especialidad</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    </body>
 </html>
