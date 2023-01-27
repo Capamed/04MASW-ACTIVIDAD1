@@ -19,7 +19,7 @@ $HTML_RENDER = "";
 
 <div class="container">
     <div class="row">
-        <div class="col-6">
+        <div class="col-md-8 mx-auto">
             <div id="divDataPrincipal"></div>
         </div>
     </div>
