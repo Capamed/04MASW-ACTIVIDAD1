@@ -1,4 +1,5 @@
 <?php
+include_once 'models/PacienteModel.php';
 class PacienteController extends Controller
 {
     function __construct()
@@ -19,7 +20,7 @@ class PacienteController extends Controller
     {
         $estado = isset($_GET['estado']) ? $_GET['estado'] : '';
         header('Content-type: application/json');
-        echo UISQL::TableToJSON("select * from get_paciente('{$estado}');");
+        echo PacienteModel::GetAll($estado);
     }
 
     function PostPaciente()
@@ -27,11 +28,9 @@ class PacienteController extends Controller
         header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $validar = ['id_paciente', 'nombre', 'apellido', 'sexo', 'telefono', 'direccion', 'correo_electronico', 'fecha_nacimiento', 'estado'];
-            list($data, $prms) = UIHTTP::Validate($result, $validar);
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, PacienteModel::PARAMS, PacienteModel::class);
             if (count($result->mensaje) == 0) {
-                $sql = "Usp_post_paciente";
-                $result = UISQL::Execute($sql, $prms);
+                $result = PacienteModel::Post($model);
             }
         }
         echo json_encode($result);
