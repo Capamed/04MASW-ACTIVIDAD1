@@ -26,24 +26,23 @@ class EnfermeroController extends Controller
         header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            list($data, $prms) = UIHTTP::ValidateWithModel($result, EnfermeroModel::PARAMS,EnfermeroModel::class);
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, EnfermeroModel::PARAMS, EnfermeroModel::class);
             if (count($result->mensaje) == 0) {
                 $result = EnfermeroModel::Post($model);
             }
         }
         echo json_encode($result);
     }
-    
+
     function DeleteEnfermero()
     {
         header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $validar = ['id_enfermero'];
-            list($data, $prms) = UIHTTP::Validate($result, $validar);
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, $validar, EnfermeroModel::class);
             if (count($result->mensaje) == 0) {
-                $sql = "Usp_delete_enfermero";
-                $result = UISQL::Execute($sql, $prms);
+                $result = EnfermeroModel::Delete($model);
             }
         }
         echo json_encode($result);
