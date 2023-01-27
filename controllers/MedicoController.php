@@ -1,8 +1,6 @@
 <?php
-
-require_once 'models/TransactionEN.php';
-
-class Medico extends Controller
+require_once 'models/MedicoModel.php';
+class MedicoController extends Controller
 {
     function __construct()
     {
@@ -21,7 +19,7 @@ class Medico extends Controller
     function GetAllMedico()
     {
         header('Content-type: application/json');
-        echo UISQL::TableToJSON('select * from get_medico();');
+        echo MedicoModel::GetAll();
     }
 
     function PostMedico()
@@ -29,11 +27,22 @@ class Medico extends Controller
         header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $validar = ['id_medico', 'numero_identificacion', 'nombre', 'apellido', 'telefono', 'correo_electronico', 'id_especialidad'];
-            list($data, $prms) = UIHTTP::Validate($result, $validar);
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, MedicoModel::PARAMS, MedicoModel::class);
             if (count($result->mensaje) == 0) {
-                $sql = "Usp_post_medico";
-                $result = UISQL::Execute($sql, $prms);
+                $result = MedicoModel::Post($model);
+            }
+        }
+        echo json_encode($result);
+    }
+    function DeleteMedico()
+    {
+        header('Content-type: application/json');
+        $result = new TransactionEN();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $validar = ['id_medico'];
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, $validar, MedicoModel::class);
+            if (count($result->mensaje) == 0) {
+                $result = MedicoModel::Delete($model);
             }
         }
         echo json_encode($result);

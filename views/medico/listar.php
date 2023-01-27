@@ -162,6 +162,7 @@ $HTML_RENDER = "";
                                 let html = '';
                                 html += `<td style="display: flex;justify-content: space-between;">`;
                                 html += `<button class="btnEditar btn btn-sm btn-warning m-auto"><i class="fa-solid fa-pen"></i></button>`;
+                                html += `<button class="btnEliminar btn btn-sm btn-danger m-auto"><i class="fa-solid fa-trash"></i></button>`;
                                 html += `</td>`;
                                 return html;
                             }
@@ -172,6 +173,22 @@ $HTML_RENDER = "";
                         tipo: 'click',
                         fn: function(e, jsonRow) {
                             Load.Modal(jsonRow);
+                        }
+                    }, {
+                        query: 'button.btnEliminar',
+                        tipo: 'click',
+                        fn: function(e, jsonRow) {
+                            let tr = e.target.closest('tr');
+                            tr.classList.add('blocked');
+                            MsgBox('question', async function() {
+                                    let jsonParam = {
+                                        id_medico: jsonRow.id_medico
+                                    };
+                                    await UIAjax.runPostLoading(hdURL.value + 'medico/DeleteMedico', jsonParam, Load.Ready);
+                                },
+                                function() {
+                                    tr.classList.remove('blocked');
+                                });
                         }
                     }]
                 });

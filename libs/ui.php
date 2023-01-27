@@ -133,7 +133,13 @@ class UISQL
             $resultado->success = true;
             array_push($resultado->mensaje, 'Ok');
         } catch (Exception $e) {
-            array_push($resultado->mensaje, $e->getMessage());
+            $mensaje_error = $e->getMessage();
+            if (str_contains($mensaje_error, 'dm_email_check')) {
+                array_push($resultado->mensaje, 'El correo es inválido');
+            } else {
+                array_push($resultado->mensaje, $e->getMessage());
+            }
+            // array_push($resultado->mensaje, 'as');
         } finally {
             $conector->desconectar();
         }
