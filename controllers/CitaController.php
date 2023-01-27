@@ -34,18 +34,4 @@ class CitaController extends Controller
         echo json_encode($result);
     }
     
-    function DeleteCita()
-    {
-        header('Content-type: application/json');
-        $result = new TransactionEN();
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $validar = ['id_enfermero'];
-            list($data, $prms) = UIHTTP::Validate($result, $validar);
-            if (count($result->mensaje) == 0) {
-                $sql = "Usp_delete_cita";
-                $result = UISQL::Execute($sql, $prms);
-            }
-        }
-        echo json_encode($result);
-    }
 }
