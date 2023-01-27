@@ -60,23 +60,23 @@ $HTML_RENDER = "";
                     <div class="row">
                         <div class="col-md-4">
                             <div id="selecModificar" class="form-floating mb-3">
-                                <select id="selectEstadoCita" class="form-control">
-                                    <option value="1">CON</option>
-                                    <option value="2">ATE</option>
+                                <select id="selectEstadoCitaModificar" class="form-control">
+                                    <option value="CON">CONFIRMADO</option>
+                                    <option value="ATE">ATENDIDO</option>
                                 </select>
-                                <label for="selectEstadoCita">Estado Cita</label>
+                                <label for="selectEstadoCitaModificar">Estado Cita</label>
                             </div>
                             <div id="selecCrear" class="form-floating mb-3">
-                                <select id="selectEstadoCita" class="form-control">
-                                    <option value="1">AGE</option>
+                                <select id="selectEstadoCitaCrear" class="form-control">
+                                    <option value="AGE">AGENDADO</option>
                                 </select>
-                                <label for="selectEstadoCita">Estado Cita</label>
+                                <label for="selectEstadoCitaCrear">Estado Cita</label>
                             </div>
                             <div id="selecCancelar" class="form-floating mb-3">
-                                <select id="selectEstadoCita" class="form-control">
-                                    <option value="1">CAN</option>
+                                <select id="selectEstadoCitaCancelar" class="form-control">
+                                    <option value="CAN">CANCELADO</option>
                                 </select>
-                                <label for="selectEstadoCita">Estado Cita</label>
+                                <label for="selectEstadoCitaCancelar">Estado Cita</label>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -203,6 +203,7 @@ $HTML_RENDER = "";
                 inputSelectCrear.hidden = true;
                 inputSelectModificar.hidden = false;
                 inputSelectCancelar.hidden = true;
+                selectEstadoCitaModificar.value = jsonRow.estado || 'AGE';
            }else if(tipo === 'c'){
                 tituloAction.innerHTML = 'CREAR';
                 inputNombreMedico.disabled = false;
@@ -213,6 +214,7 @@ $HTML_RENDER = "";
                 inputSelectModificar.hidden = true;
                 inputSelectCancelar.hidden = true;
                 inputSelectCrear.hidden = false;
+                selectEstadoCitaCrear.value = jsonRow.estado || 'AGE';
             }else if(tipo === 'e'){
                 inputNombreMedico.disabled = true;
                 inputNombrePaciente.disabled = true;
@@ -222,6 +224,7 @@ $HTML_RENDER = "";
                 inputSelectModificar.hidden = true;
                 inputSelectCrear.hidden = true;
                 inputSelectCancelar.hidden = false;
+                selectEstadoCitaCancelar.value = jsonRow.estado || 'CAN';
            }
 
             if (jsonRow == null) {
@@ -232,7 +235,6 @@ $HTML_RENDER = "";
             var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
             txtNombreMedico.value = jsonRow.nombre_medico || '';
             txtNombrePaciente.value = jsonRow.nombre_paciente || '';
-            selectEstadoCita.value = jsonRow.estado || '1';
             txtFechaIngreso.value = jsonRow.fecha_ingreso || '';
             txtFechaModificacion.value = jsonRow.fecha_modificacion || '';
             UIEvent.clearEvents(btnGuardarMMA);
@@ -243,12 +245,11 @@ $HTML_RENDER = "";
                     id_medico: jsonRow.id_medico,
                     nombre_paciente: txtNombrePaciente.value,
                     id_paciente: jsonRow.id_paciente,
-                    estado: selectEstadoCita.value,
+                    estado: (tipo === 'm')? selectEstadoCitaModificar.value : (tipo === 'c')?selectEstadoCitaCrear.value:selectEstadoCitaCancelar.value,
                     fecha_ingreso: txtFechaIngreso.value,
-                    fecha_modificacion: txtFechaIngrestxtFechaModificaciono.value
+                    fecha_modificacion: txtFechaModificacion.value
                 };
-                console.log(jsonParam);
-                await UIAjax.runPostLoading(hdURL.value + 'paciente/PostPaciente', jsonParam, Load.Ready);
+                //await UIAjax.runPostLoading(hdURL.value + 'paciente/PostPaciente', jsonParam, Load.Ready);
             });
 
             modal.show();
