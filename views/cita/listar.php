@@ -35,55 +35,48 @@ $HTML_RENDER = "";
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input id="txtNombreMMA" type="text" class="form-control" placeholder="_">
-                                <label for="txtNombreMMA">Nombre</label>
-                            </div>
+                        <div class="col-3" style="text-align: center">
+                            <img src="./../assets/img/doctor.png" alt="doctor" style="height:65px;">
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input id="txtApellidoMMA" type="text" class="form-control" placeholder="_">
-                                <label for="txtApellidoMMA">Apellido</label>
+                             
+                                <input id="txtNombreMedico" type="text" class="form-control" placeholder="_">
+                                <label for="txtNombreMedico">Nombre Médico</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-3" style="text-align: center">
+                            <img src="./../assets/img/victima.png" alt="paciente" style="height:65px;">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input id="txtNombrePaciente" type="text" class="form-control" placeholder="_">
+                                <label for="txtNombrePaciente">Nombre Paciente</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
-                                <select id="selectSexoMMA" class="form-control">
-                                    <option value="1">Masculino</option>
-                                    <option value="2">Femenino</option>
+                                <select id="selectEstadoCita" class="form-control">
+                                    <option value="1">CON</option>
+                                    <option value="2">ATE</option>
                                 </select>
-                                <label for="selectSexoMMA">Sexo</label>
+                                <label for="selectEstadoCita">Estado Cita</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
-                                <input id="txtTelefonoMMA" type="text" class="form-control" placeholder="_">
-                                <label for="txtTelefonoMMA">Telefono</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <input id="txtDireccionMMA" type="text" class="form-control" placeholder="_">
-                                <label for="txtDireccionMMA">Dirección</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-floating mb-3">
-                                <input id="txtCorreoElectronicoMMA" type="email" class="form-control" placeholder="_">
-                                <label for="txtCorreoElectronicoMMA">Email</label>
+                                <input id="txtFechaIngreso" type="email" class="form-control" placeholder="_">
+                                <label for="txtFechaIngreso">Fecha Ingreso</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
-                                <input id="txtFechaNacimientoMMA" type="email" class="form-control" placeholder="_">
-                                <label for="txtFechaNacimientoMMA">F.Nacimiento</label>
+                                <input id="txtFechaModificacion" type="email" class="form-control" placeholder="_">
+                                <label for="txtFechaModificacion">Fecha Modificación</label>
                             </div>
                         </div>
                     </div>
@@ -132,20 +125,12 @@ $HTML_RENDER = "";
                             title: 'Nombre Médico'
                         },
                         {
-                            data: 'apellido_medico',
-                            title: 'Apellido Médico'
-                        },
-                        {
                             data: 'nombre_paciente',
                             title: 'Nombre Paciente',
                         },
                         {
-                            data: 'apellido_paciente',
-                            title: 'Apellido Paciente'
-                        },
-                        {
                             data: 'estado',
-                            title: 'estado'
+                            title: 'Estado'
                         },
                         {
                             data: 'fecha_ingreso',
@@ -174,24 +159,14 @@ $HTML_RENDER = "";
                             query: 'button.btnEditar',
                             tipo: 'click',
                             fn: function(e, jsonRow) {
-                                Load.Modal('v',jsonRow);
+                                Load.Modal('m',jsonRow);
                             }
                         },
                         {
                         query: 'button.btnEliminar',
                         tipo: 'click',
                         fn: function(e, jsonRow) {
-                            let tr = e.target.closest('tr');
-                            tr.classList.add('blocked');
-                            MsgBox('question', async function() {
-                                    let jsonParam = {
-                                        id_enfermero: jsonRow.id_enfermero
-                                    };
-                                    await UIAjax.runPostLoading(hdURL.value + 'enfermero/DeleteEnfermero', jsonParam, Load.Ready);
-                                },
-                                function() {
-                                    tr.classList.remove('blocked');
-                                });
+                                Load.Modal('e',jsonRow);
                         }
                     }
                     ]
@@ -200,24 +175,29 @@ $HTML_RENDER = "";
             });
         },
         Modal: async function(tipo,jsonRow) {
-            const inputNombre = document.getElementById("txtNombreMMA");
-            const inputApellido = document.getElementById("txtApellidoMMA");
-            const inputSexo = document.getElementById("selectSexoMMA");
-            const inputTelefono = document.getElementById("txtTelefonoMMA");
-            const inputDireccion = document.getElementById("txtDireccionMMA");
-            const inputEmail = document.getElementById("txtCorreoElectronicoMMA");
-            const inputFechaNacimiento = document.getElementById("txtFechaNacimientoMMA");
+            const inputNombreMedico = document.getElementById("txtNombreMedico");
+            const inputNombrePaciente = document.getElementById("txtNombrePaciente");
+            const inputEstado = document.getElementById("selectEstadoCita");
+            const inputFechaIngreso = document.getElementById("txtFechaIngreso");
+            const inputFechaModificacion = document.getElementById("txtFechaModificacion");
             const tituloAction = document.getElementById("h5MMA");
-            
-           if(tipo === 'v'){
-                tituloAction.innerHTML = 'INFORMACIÓN';
-                inputNombre.disabled = true;
-                inputApellido.disabled = true;
-                inputSexo.disabled = true;
-                inputTelefono.disabled = true;
-                inputDireccion.disabled = true;
-                inputEmail.disabled = true;
-                inputFechaNacimiento.disabled = true;
+           if(tipo === 'm'){
+                tituloAction.innerHTML = 'MODIFICAR CITA';
+                inputNombreMedico.disabled = true;
+                inputNombrePaciente.disabled = true;
+           }else if(tipo === 'c'){
+                tituloAction.innerHTML = 'CREAR';
+                inputNombreMedico.disabled = false;
+                inputNombrePaciente.disabled = false;
+                tituloAction.innerHTML = 'CREAR CITA';
+                inputFechaIngreso.disabled = false;
+                inputFechaModificacion.disabled = true;
+            }else if(tipo === 'e'){
+                inputNombreMedico.disabled = true;
+                inputNombrePaciente.disabled = true;
+                tituloAction.innerHTML = 'CANCELAR CITA';
+                inputFechaIngreso.disabled = true;
+                inputFechaModificacion.disabled = true;
            }
 
             if (jsonRow == null) {
@@ -226,25 +206,24 @@ $HTML_RENDER = "";
             }
             var modalEl = document.querySelector('#modalMantenimiento');
             var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            txtNombreMMA.value = jsonRow.nombre || '';
-            txtApellidoMMA.value = jsonRow.apellido || '';
-            selectSexoMMA.value = jsonRow.sexo || '1';
-            txtTelefonoMMA.value = jsonRow.telefono || '';
-            txtDireccionMMA.value = jsonRow.direccion || '';
-            txtCorreoElectronicoMMA.value = jsonRow.correo_electronico || '';
-            txtFechaNacimientoMMA.value = jsonRow.fecha_nacimiento || '';
+            txtNombreMedico.value = jsonRow.nombre_medico || '';
+            txtNombrePaciente.value = jsonRow.nombre_paciente || '';
+            selectEstadoCita.value = jsonRow.estado || '1';
+            txtFechaIngreso.value = jsonRow.fecha_ingreso || '';
+            txtFechaModificacion.value = jsonRow.fecha_modificacion || '';
             UIEvent.clearEvents(btnGuardarMMA);
             UIEvent.addListener(btnGuardarMMA, 'click', async function(e) {
                 let jsonParam = {
+                    id_cita: jsonRow.id_cita,
+                    nombre_medico: txtNombreMedico.value,
+                    id_medico: jsonRow.id_medico,
+                    nombre_paciente: txtNombrePaciente.value,
                     id_paciente: jsonRow.id_paciente,
-                    nombre: txtNombreMMA.value,
-                    apellido: txtApellidoMMA.value,
-                    sexo: selectSexoMMA.value,
-                    telefono: txtTelefonoMMA.value,
-                    direccion: txtDireccionMMA.value,
-                    correo_electronico: txtCorreoElectronicoMMA.value,
-                    fecha_nacimiento: txtFechaNacimientoMMA.value,
+                    estado: selectEstadoCita.value,
+                    fecha_ingreso: txtFechaIngreso.value,
+                    fecha_modificacion: txtFechaIngrestxtFechaModificaciono.value
                 };
+                console.log(jsonParam);
                 await UIAjax.runPostLoading(hdURL.value + 'paciente/PostPaciente', jsonParam, Load.Ready);
             });
 
