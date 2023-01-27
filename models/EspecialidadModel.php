@@ -6,13 +6,8 @@ class EspecialidadModel
     public $nombre;
     public function __construct()
     {
-        // foreach (EspecialidadModel::PARAMS as $prop) {
-        //     $this->{$prop} = null;
-        // }
     }
-    // public function createProperty($name, $value){
-    //     $this->{$name} = $value;
-    // }
+    
 
     public static function GetAll()
     {

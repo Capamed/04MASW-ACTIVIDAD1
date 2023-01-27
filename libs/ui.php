@@ -26,8 +26,7 @@ class UIHTML
         $PHP2 = '';
         $PHP3 = '';
 
-        // $d2 = new DateTime();
-        // $random = $d2->format('YmdHisu');
+        
 
         $PHP1 .= "<link rel='stylesheet' href='{$view->path}/assets/css/menu.css?v={$view->random}' />";
         $PHP1 .= "<link rel='stylesheet' href='{$view->path}/assets/css/core.css?v={$view->random}' />";
@@ -47,9 +46,6 @@ class UIHTML
 
     static function FOOTER($view)
     {
-        // $d2 = new DateTime();
-        // $random = $d2->format('YmdHisu');
-
         $HTML = file_get_contents($view->path_footer, true);
         $HTML = str_replace("{{URL}}", $view->path, $HTML);
         $HTML = str_replace("{{RANDOM}}", $view->random, $HTML);
@@ -76,7 +72,6 @@ class UISQL
         $this->bd = 'ditixdvr';
         $this->usuario = 'ditixdvr';
         $this->clave = 'qya9L-taxxskDijE45c8_H711i4GulyE';
-        // $this->dsn = "$this->controlador:Server=$this->servidor,$this->puerto;Database=$this->bd";
         $this->dsn = "$this->controlador:host=$this->servidor,$this->puerto;dbname=$this->bd";
         $this->opciones = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
     }
@@ -129,7 +124,6 @@ class UISQL
                 }
             }
             $stmt->execute();
-            // return $stmt->rowCount();
             $resultado->success = true;
             array_push($resultado->mensaje, 'Ok');
         } catch (Exception $e) {
@@ -139,7 +133,6 @@ class UISQL
             } else {
                 array_push($resultado->mensaje, $e->getMessage());
             }
-            // array_push($resultado->mensaje, 'as');
         } finally {
             $conector->desconectar();
         }
@@ -152,16 +145,11 @@ class UISQL
         try {
             $resultado .= "CALL {$sp}";
             if (!empty($params) && count($params)) {
-                // $resultado .= " ( :p_";
-                // $resultado .= join(',:p_',$params);
-                // $resultado .= " ) ";
                 $resultado .= " ( ";
                 foreach ($params as $key => $val) {
                     $resultado .= ":p_$key,";
                 }
-                // $resultado .= trim($resultado, ',');
                 $resultado = substr($resultado, 0, -1);
-                // trim($resultado, ',');
                 $resultado .= " ) ";
             }
             $resultado .= ";";
@@ -217,16 +205,11 @@ class UIMODEL
     static function CopyPartial($model, array $params)
     {
         $prms = [];
-        // $refl = new ReflectionClass($model);
         if (!empty($model) && !empty($params)) {
             foreach ($params as $value) {
                 if (property_exists($model, $value)) {
-                    // $model->{$value} = $value;
                     $prms[$value] = $model->{$value};
                 }
-                // if (!empty($model[$value])) {
-                //     $prms[$value] = $model[$value];
-                // }
             }
         }
         return $prms;

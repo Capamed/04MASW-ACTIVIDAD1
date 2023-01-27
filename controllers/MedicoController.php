@@ -5,7 +5,7 @@ class MedicoController extends Controller
     function __construct()
     {
         parent::__construct();
-        // $this->view->render('medico/index');
+        
     }
     function index()
     {
@@ -49,19 +49,3 @@ class MedicoController extends Controller
     }
 }
 
-
-// header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
-// header("HTTP/1.0 404 Not Found");
-// http_response_code($response_code);
-// http_response_code(200);
-
-// echo $data['nombre'] ?? 'asd';
-// $data = [
-//     'name' => $name,
-//     'surname' => $surname,
-//     'sex' => $sex,
-//     'id' => $id,
-// ];
-// $sql = "UPDATE users SET name=:name, surname=:surname, sex=:sex WHERE id=:id";
-// [$name, $surname, $sex, $id]
-// $sql = "UPDATE users SET name=?, surname=?, sex=? WHERE id=?";

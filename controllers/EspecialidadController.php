@@ -5,7 +5,7 @@ class EspecialidadController extends Controller
     function __construct()
     {
         parent::__construct();
-        // $this->view->render('especialidad/index');
+  
     }
     function index()
     {
@@ -27,7 +27,7 @@ class EspecialidadController extends Controller
         header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // $validar = ['id_especialidad', 'nombre'];
+            
             list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, EspecialidadModel::PARAMS, EspecialidadModel::class);
             if (count($result->mensaje) == 0) {
                 $result = EspecialidadModel::Post($model);

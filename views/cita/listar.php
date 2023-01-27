@@ -219,7 +219,6 @@ $HTML_RENDER = "";
             const comoboSelectCrearMedico = document.getElementById("selectCrearMedico");
             const comoboSelectModCanPaciente = document.getElementById("selectModCanPaciente");
             const comoboSelectCrearPaciente = document.getElementById("selectCrearPaciente");
-
            if(tipo === 'm'){
                 tituloAction.innerHTML = 'MODIFICAR CITA';
                 inputNombreMedico.disabled = true;
@@ -269,6 +268,7 @@ $HTML_RENDER = "";
                 jsonRow = {};
                 jsonRow.id_cita = -1;
             }
+
             var modalEl = document.querySelector('#modalMantenimiento');
             var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
             txtNombreMedico.value = jsonRow.nombre_medico || '';
@@ -281,13 +281,13 @@ $HTML_RENDER = "";
             UIEvent.addListener(btnGuardarMMA, 'click', async function(e) {
                 let jsonParam = {
                     id_cita: (tipo === 'c')?-1:jsonRow.id_cita,
-                    nombre_medico: jsonRow.nombre_medico,
-                    id_medico: jsonRow.id_medico,
-                    nombre_paciente: jsonRow.nombre_paciente,
-                    id_paciente: jsonRow.id_paciente,
+                    nombre_medico: (tipo === 'c')? 'medico':jsonRow.nombre_medico,
+                    id_medico: (tipo === 'c')?selectNombreMedico.value:jsonRow.id_medico,
+                    nombre_paciente: (tipo === 'c')?'paciente':jsonRow.nombre_paciente,
+                    id_paciente: (tipo === 'c')?selectNombrePaciente.value:jsonRow.id_medico,
                     estado: (tipo === 'm')? selectEstadoCitaModificar.value : (tipo === 'c')?selectEstadoCitaCrear.value:selectEstadoCitaCancelar.value,
-                    fecha_ingreso: jsonRow.fecha_ingreso,
-                    fecha_modificacion: jsonRow.fecha_modificacion
+                    fecha_ingreso: txtFechaIngreso.value,
+                    fecha_modificacion: (tipo === 'c')?'01/01/1900':txtFechaModificacion.value
                 };
                 await UIAjax.runPostLoading(hdURL.value + 'cita/PostCita', jsonParam, Load.Ready);
             });
@@ -322,11 +322,11 @@ $HTML_RENDER = "";
             await UIAjax.Get(hdURL.value + 'paciente/GetAllPaciente').then(r => {
                 APacientes = r;
                 ATmpPacientes = [];
-                AMedicos.forEach(element => {
-                    ATmpPacientes.push({apellido:element.apellido,correo_electronico: element.correo_electronico,direccion:element.direccion, estado:element.estado, fecha_nacimiento: element.fecha_nacimiento,nombre: element.nombre, id_paciente: element.id_paciente, telefono: element.telefono, sexo: element.sexo, nombre_completo_paciente: `${element.nombre} ${element.apellido}`
+                APacientes.forEach(element => {
+                    ATmpPacientes.push({apellido:element.apellido,correo_electronico: element.correo_electronico,direccion:element.direccion, estado:element.estado, fecha_nacimiento: element.fecha_nacimiento,nombre: element.nombre, id_paciente: element.id_paciente, telefono: element.telefono, sexo: element.sexo, nombre_completo: `${element.nombre} ${element.apellido}`
                     });
                 });
-                UIHTML.Combobox('#selectNombrePaciente', ATmpPacientes, 'id_paciente', 'nombre_completo_paciente');
+                UIHTML.Combobox('#selectNombrePaciente', ATmpPacientes, 'id_paciente', 'nombre_completo');
             });
             if (showLoading) {
                 UILoadingOverlay('hide');

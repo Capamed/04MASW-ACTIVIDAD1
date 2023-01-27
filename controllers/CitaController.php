@@ -26,7 +26,7 @@ class CitaController extends Controller
         header('Content-type: application/json');
         $result = new TransactionEN();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            list($data, $prms) = UIHTTP::ValidateWithModel($result, CitaModel::PARAMS,CitaModel::class);
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, CitaModel::PARAMS, CitaModel::class);
             if (count($result->mensaje) == 0) {
                 $result = CitaModel::Post($model);
             }
