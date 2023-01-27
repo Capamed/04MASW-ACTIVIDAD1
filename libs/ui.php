@@ -21,8 +21,6 @@ class UIHTML
 {
     static function HEADER($view)
     {
-
-        echo $view->path;
         $PHP1 = '';
         $PHP2 = '';
         $PHP3 = '';
