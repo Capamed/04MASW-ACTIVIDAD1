@@ -26,6 +26,11 @@ class View
     {
         // ob_end_clean();
         // ob_start();
-        require 'views/' . $nombre . '.php';
+        // require 'views/' . $nombre . '.php';
+        $HTML = file_get_contents('views/' . $nombre . '.php', true);
+        $HTML = trim($HTML);
+        $HTML = str_replace("{{URL}}", $this->path, $HTML);
+        $HTML = str_replace("{{RANDOM}}", $this->random, $HTML);
+        eval('?>' . $HTML . '<?php');
     }
 }
