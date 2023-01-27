@@ -59,10 +59,22 @@ $HTML_RENDER = "";
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-floating mb-3">
+                            <div id="selecModificar" class="form-floating mb-3">
                                 <select id="selectEstadoCita" class="form-control">
                                     <option value="1">CON</option>
                                     <option value="2">ATE</option>
+                                </select>
+                                <label for="selectEstadoCita">Estado Cita</label>
+                            </div>
+                            <div id="selecCrear" class="form-floating mb-3">
+                                <select id="selectEstadoCita" class="form-control">
+                                    <option value="1">AGE</option>
+                                </select>
+                                <label for="selectEstadoCita">Estado Cita</label>
+                            </div>
+                            <div id="selecCancelar" class="form-floating mb-3">
+                                <select id="selectEstadoCita" class="form-control">
+                                    <option value="1">CAN</option>
                                 </select>
                                 <label for="selectEstadoCita">Estado Cita</label>
                             </div>
@@ -178,6 +190,9 @@ $HTML_RENDER = "";
             const inputNombreMedico = document.getElementById("txtNombreMedico");
             const inputNombrePaciente = document.getElementById("txtNombrePaciente");
             const inputEstado = document.getElementById("selectEstadoCita");
+            const inputSelectCancelar = document.getElementById("selecCancelar");
+            const inputSelectModificar = document.getElementById("selecModificar");
+            const inputSelectCrear = document.getElementById("selecCrear");
             const inputFechaIngreso = document.getElementById("txtFechaIngreso");
             const inputFechaModificacion = document.getElementById("txtFechaModificacion");
             const tituloAction = document.getElementById("h5MMA");
@@ -185,6 +200,9 @@ $HTML_RENDER = "";
                 tituloAction.innerHTML = 'MODIFICAR CITA';
                 inputNombreMedico.disabled = true;
                 inputNombrePaciente.disabled = true;
+                inputSelectCrear.hidden = true;
+                inputSelectModificar.hidden = false;
+                inputSelectCancelar.hidden = true;
            }else if(tipo === 'c'){
                 tituloAction.innerHTML = 'CREAR';
                 inputNombreMedico.disabled = false;
@@ -192,12 +210,18 @@ $HTML_RENDER = "";
                 tituloAction.innerHTML = 'CREAR CITA';
                 inputFechaIngreso.disabled = false;
                 inputFechaModificacion.disabled = true;
+                inputSelectModificar.hidden = true;
+                inputSelectCancelar.hidden = true;
+                inputSelectCrear.hidden = false;
             }else if(tipo === 'e'){
                 inputNombreMedico.disabled = true;
                 inputNombrePaciente.disabled = true;
                 tituloAction.innerHTML = 'CANCELAR CITA';
                 inputFechaIngreso.disabled = true;
                 inputFechaModificacion.disabled = true;
+                inputSelectModificar.hidden = true;
+                inputSelectCrear.hidden = true;
+                inputSelectCancelar.hidden = false;
            }
 
             if (jsonRow == null) {
