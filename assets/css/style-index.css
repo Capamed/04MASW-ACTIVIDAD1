@@ -1,32 +1,27 @@
 body {
-	font-family: "Gilroy ExtraBold", system-ui, sans-serif;
-	font-style: normal;
-	font-weight: normal;
-	-webkit-font-smoothing: antialiased;
-	-webkit-font-kerning: normal;
-	-webkit-text-size-adjust: 100%;
+	font-family: "inherit";
+	
 }
 html, body {
 	width: 100vw;
 	height: 100vh;
 }
 body {
-	transform-style: preserve-3d;
-	transform: perspective(60rem);
 	position: fixed;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 .Menu-list {
-	font-size: 4.25rem;
-	line-height: 1.2;
+	font-size: 6.25rem;
 	text-transform: uppercase;
-	text-align: center;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	transform: rotateX(-10deg) rotateY(20deg);
+	align-items: center;
+	border: 2px solid white;
+    background-color: #ffffff1c;
+    opacity: 0.8;
 }
 .Menu-list-item {
 	position: relative;
@@ -43,7 +38,7 @@ body {
 	height: 4px;
 	border-radius: 4px;
 	margin-top: -2px;
-	background: #ff2c75;
+	background: #b3ee53 !important;
 	transform: scale(0);
 	transition: transform 0.8s cubic-bezier(0.16, 1.08, 0.38, 0.98);
 	z-index: 1;
@@ -52,7 +47,7 @@ body {
 	display: block;
 	position: absolute;
 	overflow: hidden;
-	color: #ff2c75;
+	color: #eea653 !important;
 	top: 0;
 	height: 49%;
 	transition: all 0.8s cubic-bezier(0.16, 1.08, 0.38, 0.98);
@@ -68,7 +63,7 @@ body {
 	transform: translateY(-49%);
 }
 .Menu-list-item:hover .Mask, .Menu-list-item:active .Mask {
-	color: #fff;
+	color: #fff !important;
 	transform: skewX(12deg) translateX(5px);
 }
 .Menu-list-item:hover .Mask + .Mask, .Menu-list-item:active .Mask + .Mask {
@@ -79,4 +74,7 @@ body {
 }
 .Menu{
 	position: absolute;
+}
+a:link, a:visited {
+	text-decoration: none;
 }

@@ -1,0 +1,118 @@
+body {
+    background-color: #C7F4F6;
+}
+
+.rowMenuPrincipal {
+    min-height: 65px;
+    background-color: #369CFB;
+    color: white;
+    /* font-weight: 600; */
+}
+
+.rowMenuPrincipal i.fa-user {
+    background: #04EA97;
+    color: #369CFB;
+    font-size: 25px;
+    padding: 13px;
+    border-radius: 50px;
+    margin-left: 25px;
+}
+
+.rowMenuPrincipal ul.dropdown-menu.show {
+    background-color: #369CFB;
+}
+
+.rowMenuPrincipal ul.dropdown-menu.show li {
+    padding: 0 5px;
+    /* display: flex; */
+}
+
+.rowMenuPrincipal ul.dropdown-menu.show li a {
+    border-left: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #fff;
+    color: white;
+    padding: 2px 5px 2px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rowMenuPrincipal ul.dropdown-menu.show li a i {
+    margin-left: 25px;
+    align-self: center;
+}
+
+.rowMenuPrincipal ul.dropdown-menu.show li a:hover {
+    color: #369CFB;
+}
+
+.rowMenuPrincipal ul.dropdown-menu.show li:last-child a {
+    border-bottom: 1px solid #fff;
+}
+
+.btn-menu-principal {
+    border: 1px solid black;
+    background-color: rgba(255, 255, 255, 0.55);
+    margin: 45px;
+    padding: 20px 30px;
+}
+
+.btn-menu-principal:hover {
+    /* background-color: rgb(54, 156, 251); */
+    background-color: rgba(54, 156, 251, 0.75);
+    color: #fff;
+}
+
+.btn-menu-principal:active {
+    /* border: 3px solid #04EA97; */
+    outline: 3px solid #04EA97;
+
+    background-color: #369CFB !important;
+    color: #04EA97 !important;
+    /* box-shadow: inset offset-x offset-y blur-radius spread-radius blue !important; */
+}
+
+#imgMedicina {
+    position: absolute;
+    display: block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    height: auto;
+    opacity: .3;
+
+    /* user-drag: none; */
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+div#divBackground {
+    overflow: hidden;
+    position: absolute;
+    /* left: 0;
+    right: 0; */
+    /* top:65px */
+    /* height: 80vh; */
+    width: 100%;
+    height: calc(100vh - 65px);
+    z-index: -1;
+    opacity: .3;
+    /* background-image: url(../assets/img/simbolo-de-la-medicina.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed; */
+    /* left: 50%; */
+    display: flex;
+}
+
+div#divBackground img {
+    /* margin-top: 80px; */
+    /* align-self: auto; */
+    /* margin-left: auto;
+    margin-right: auto; */
+    margin: auto;
+}

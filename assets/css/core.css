@@ -1,0 +1,90 @@
+.fw600 {
+    font-weight: 600;
+}
+
+.fw700 {
+    font-weight: 700;
+}
+
+table.table-erp thead tr th {
+    background-color: #369CFB;
+    color: #fff;
+}
+
+table.table-erp tbody tr td {
+    background-color: #fff;
+}
+
+.highlight {
+    background: yellow;
+    padding: 0px;
+    border: #00CC00 dotted 1px;
+}
+
+.highlight-dark {
+    background: yellow;
+    padding: 0px;
+    border: #00CC00 dotted 1px;
+    color: #000;
+}
+
+tr.blocked {
+    user-select: none;
+    filter: blur(3px);
+}
+
+.item.zoom {
+    animation: zoom forwards 0.7s ease-out 1;
+}
+
+.removed-item {
+    animation: removed-item-animation .6s ease-out forwards;
+    transform-origin: 50% 50%;
+}
+
+@keyframes removed-item-animation {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(4);
+    }
+}
+
+.new-item {
+    opacity: 0;
+    animation: fadeIn .3s linear forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.restored-item {
+    animation:
+        openspace .3s ease forwards,
+        restored-item-animation .3s .3s ease-out forwards;
+}
+
+@keyframes openspace {
+    to {
+        height: auto;
+    }
+}
+
+@keyframes restored-item-animation {
+    0% {
+        opacity: 0;
+        transform: scale(4);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
