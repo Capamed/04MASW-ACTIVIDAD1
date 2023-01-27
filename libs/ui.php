@@ -21,7 +21,6 @@ class UIHTML
 {
     static function HEADER($view)
     {
-
         $PHP1 = '';
         $PHP2 = '';
         $PHP3 = '';
@@ -30,6 +29,7 @@ class UIHTML
 
         $PHP1 .= "<link rel='stylesheet' href='{$view->path}/assets/css/menu.css?v={$view->random}' />";
         $PHP1 .= "<link rel='stylesheet' href='{$view->path}/assets/css/core.css?v={$view->random}' />";
+        $PHP1 .= "<title>$view->title</title>";
 
         $PHP2 .= "$view->breadcrumb";
 

@@ -12,7 +12,9 @@ $AButtons = [
     [$this->path . "medico/listar", "doctor.png", "MÉDICOS"],
     [$this->path . "paciente/listar", "victima.png", "PACIENTES"],
     [$this->path . "enfermero/listar", "enfermera.png", "ENFERMEROS"],
-    [$this->path . "cita/listar", "agenda.png", "AGENDAR"]
+    [$this->path . "cita/listar", "agenda.png", "AGENDAR"],
+    [$this->path . "historial/listar", "history.png", "HISTORIAL"],
+    [$this->path . "reporte/index", "blank.png", "REPORTES"],
 ];
 
 foreach ($AButtons as $item) {

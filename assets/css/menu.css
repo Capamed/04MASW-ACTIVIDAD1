@@ -2,6 +2,11 @@ body {
     background-color: #C7F4F6;
 }
 
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
 .rowMenuPrincipal {
     min-height: 65px;
     background-color: #369CFB;
