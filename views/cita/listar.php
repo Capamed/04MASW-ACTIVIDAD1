@@ -95,13 +95,13 @@ $HTML_RENDER = "";
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
-                                <input id="txtFechaIngreso" type="email" class="form-control" placeholder="_">
+                                <input id="txtFechaIngreso" type="text" class="form-control" placeholder="_">
                                 <label for="txtFechaIngreso">Fecha Ingreso</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
-                                <input id="txtFechaModificacion" type="email" class="form-control" placeholder="_">
+                                <input id="txtFechaModificacion" type="text" class="form-control" placeholder="_">
                                 <label for="txtFechaModificacion">Fecha Modificación</label>
                             </div>
                         </div>
@@ -232,6 +232,8 @@ $HTML_RENDER = "";
                 comoboSelectCrearPaciente.hidden = true;
                 comoboSelectModCanMedico.hidden = false;
                 comoboSelectModCanPaciente.hidden = false;
+                inputFechaIngreso.disabled = false;
+                inputFechaModificacion.disabled = false;
            }else if(tipo === 'c'){
                 tituloAction.innerHTML = 'CREAR';
                 inputNombreMedico.disabled = false;
@@ -265,7 +267,7 @@ $HTML_RENDER = "";
 
             if (jsonRow == null) {
                 jsonRow = {};
-                jsonRow.id_paciente = -1;
+                jsonRow.id_cita = -1;
             }
             var modalEl = document.querySelector('#modalMantenimiento');
             var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -273,21 +275,21 @@ $HTML_RENDER = "";
             txtNombrePaciente.value = jsonRow.nombre_paciente || '';
             txtFechaIngreso.value = jsonRow.fecha_ingreso || '';
             txtFechaModificacion.value = jsonRow.fecha_modificacion || '';
+            selectNombreMedico.value = jsonRow.id_medico || '1';
+            selectNombrePaciente.value = jsonRow.id_paciente || '1';
             UIEvent.clearEvents(btnGuardarMMA);
             UIEvent.addListener(btnGuardarMMA, 'click', async function(e) {
                 let jsonParam = {
-                    id_cita: jsonRow.id_cita,
-                    nombre_medico: txtNombreMedico.value,
+                    id_cita: (tipo === 'c')?-1:jsonRow.id_cita,
+                    nombre_medico: jsonRow.nombre_medico,
                     id_medico: jsonRow.id_medico,
-                    nombre_paciente: txtNombrePaciente.value,
+                    nombre_paciente: jsonRow.nombre_paciente,
                     id_paciente: jsonRow.id_paciente,
                     estado: (tipo === 'm')? selectEstadoCitaModificar.value : (tipo === 'c')?selectEstadoCitaCrear.value:selectEstadoCitaCancelar.value,
-                    fecha_ingreso: txtFechaIngreso.value,
-                    fecha_modificacion: txtFechaModificacion.value,
-                    id_medico:(tipo === 'm' || tipo === 'e')? jsonRow.id_medico: selectNombreMedico.value,
-                    id_paciente: (tipo === 'm' || tipo === 'e')? jsonRow.id_paciente : selectNombrePaciente.value
+                    fecha_ingreso: jsonRow.fecha_ingreso,
+                    fecha_modificacion: jsonRow.fecha_modificacion
                 };
-                //await UIAjax.runPostLoading(hdURL.value + 'cita/PostCita', jsonParam, Load.Ready);
+                await UIAjax.runPostLoading(hdURL.value + 'cita/PostCita', jsonParam, Load.Ready);
             });
 
             modal.show();

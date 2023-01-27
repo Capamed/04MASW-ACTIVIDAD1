@@ -16,7 +16,7 @@
 
         public static function GetAll()
         {
-            return  UISQL::TableToJSON('select * from ger_citas();', CitaModel::class);
+            return  UISQL::TableToJSON('select * from get_citas();', CitaModel::class);
         }
 
         public static function Post(CitaModel $model)
