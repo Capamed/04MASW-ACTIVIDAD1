@@ -34,6 +34,19 @@ class MedicoController extends Controller
         }
         echo json_encode($result);
     }
+    function DeleteMedico()
+    {
+        header('Content-type: application/json');
+        $result = new TransactionEN();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $validar = ['id_medico'];
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, $validar, MedicoModel::class);
+            if (count($result->mensaje) == 0) {
+                $result = MedicoModel::Delete($model);
+            }
+        }
+        echo json_encode($result);
+    }
 }
 
 

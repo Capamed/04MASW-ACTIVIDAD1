@@ -35,4 +35,18 @@ class EspecialidadController extends Controller
         }
         echo json_encode($result);
     }
+
+    function DeleteEspecialidad()
+    {
+        header('Content-type: application/json');
+        $result = new TransactionEN();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $validar = ['id_especialidad'];
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, $validar, EspecialidadModel::class);
+            if (count($result->mensaje) == 0) {
+                $result = EspecialidadModel::Delete($model);
+            }
+        }
+        echo json_encode($result);
+    }
 }

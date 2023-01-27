@@ -18,9 +18,8 @@ class PacienteController extends Controller
 
     function GetAllPaciente()
     {
-        $estado = isset($_GET['estado']) ? $_GET['estado'] : '';
         header('Content-type: application/json');
-        echo PacienteModel::GetAll($estado);
+        echo PacienteModel::GetAll();
     }
 
     function PostPaciente()
@@ -31,6 +30,19 @@ class PacienteController extends Controller
             list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, PacienteModel::PARAMS, PacienteModel::class);
             if (count($result->mensaje) == 0) {
                 $result = PacienteModel::Post($model);
+            }
+        }
+        echo json_encode($result);
+    }
+    function DeletePaciente()
+    {
+        header('Content-type: application/json');
+        $result = new TransactionEN();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $validar = ['id_paciente'];
+            list($data, $prms, $model) = UIHTTP::ValidateWithModel($result, $validar, PacienteModel::class);
+            if (count($result->mensaje) == 0) {
+                $result = PacienteModel::Delete($model);
             }
         }
         echo json_encode($result);

@@ -12,7 +12,7 @@ class MedicoModel
 
     public static function GetAll()
     {
-        return UISQL::TableToJSON("select * from get_medico();", MedicoModel::class);
+        return UISQL::TableToJSON("select * from get_medico('A');", MedicoModel::class);
     }
 
     public static function Post(MedicoModel $model)
@@ -20,6 +20,14 @@ class MedicoModel
         $result = new TransactionEN();
         $sql = "Usp_post_medico";
         $prms = UIMODEL::CopyPartial($model, MedicoModel::PARAMS);
+        $result = UISQL::Execute($sql, $prms);
+        return $result;
+    }
+    public static function Delete(MedicoModel $model)
+    {
+        $result = new TransactionEN();
+        $sql = "Usp_delete_medico";
+        $prms = ["id_medico" => $model->id_medico];
         $result = UISQL::Execute($sql, $prms);
         return $result;
     }
